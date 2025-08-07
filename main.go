@@ -3,12 +3,13 @@ package main
 import (
 	"platform/config"
 	"platform/logging"
+	"platform/services"
 )
 
-func writeMessage(logger logging.Logger, cfg config.Configuration) {
+func writeMessage(logger logging.Logger, cfg config.Confuguration) {
 	if section, ok := cfg.GetSection("main"); ok {
-		if message, ok := section.GetString("message"); ok {
-			logger.Info(message)
+		if msg, ok := section.GetString("message"); ok {
+			logger.Info(msg)
 		} else {
 			logger.Panic("Cannot find configuration setting")
 		}
@@ -17,11 +18,16 @@ func writeMessage(logger logging.Logger, cfg config.Configuration) {
 	}
 }
 func main() {
-	var cfg config.Configuration
-	var err error
-	if cfg, err = config.Load("config.json"); err != nil {
-		panic(err)
-	}
-	var logger logging.Logger = logging.NewDefaultLogger(cfg)
-	writeMessage(logger, cfg)
+	services.RegisterDefaultServices()
+	// var cfg config.Confuguration
+	// services.GetService(&cfg)
+	// var logger logging.Logger
+	// services.GetService(&logger)
+	services.Call(writeMessage)
+	val := struct {
+		message string
+		logging.Logger
+	}{message: "Hello from the struct"}
+	services.Populate(&val)
+	val.Logger.Debug(val.message)
 }

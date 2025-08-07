@@ -6,20 +6,21 @@ type DefaultConfig struct {
 	configData map[string]interface{}
 }
 
-func (c *DefaultConfig) get(name string) (result interface{}, found bool) {
+func (c *DefaultConfig) get(path string) (result interface{}, found bool) {
 	data := c.configData
-	for _, sectionName := range strings.Split(name, ":") {
-		result, found = data[sectionName]
+	for _, key := range strings.Split(path, ":") {
+		result, found = data[key]
 		if newSection, ok := result.(map[string]interface{}); ok && found {
 			data = newSection
-			continue
+		} else {
+			return
 		}
 	}
 	return
 }
 
-func (c *DefaultConfig) GetSection(sectionName string) (section Configuration, found bool) {
-	value, found := c.get(sectionName)
+func (c *DefaultConfig) GetSection(path string) (section Confuguration, found bool) {
+	value, found := c.get(path)
 	if found {
 		if sectionData, ok := value.(map[string]interface{}); ok {
 			section = &DefaultConfig{configData: sectionData}
@@ -28,30 +29,30 @@ func (c *DefaultConfig) GetSection(sectionName string) (section Configuration, f
 	return
 }
 
-func (c *DefaultConfig) GetString(name string) (result string, found bool) {
-	value, found := c.get(name)
+func (c *DefaultConfig) GetString(path string) (result string, found bool) {
+	value, found := c.get(path)
 	if found {
 		result = value.(string)
 	}
 	return
+
 }
-func (c *DefaultConfig) GetInt(name string) (result int, found bool) {
-	value, found := c.get(name)
+func (c *DefaultConfig) GetInt(path string) (result int, found bool) {
+	value, found := c.get(path)
 	if found {
 		result = int(value.(float64))
 	}
 	return
-
 }
-func (c *DefaultConfig) GetBool(name string) (result bool, found bool) {
-	value, found := c.get(name)
+func (c *DefaultConfig) GetBool(path string) (result bool, found bool) {
+	value, found := c.get(path)
 	if found {
 		result = value.(bool)
 	}
 	return
 }
-func (c *DefaultConfig) GetFloat(name string) (result float64, found bool) {
-	value, found := c.get(name)
+func (c *DefaultConfig) GetFloat(path string) (result float64, found bool) {
+	value, found := c.get(path)
 	if found {
 		result = value.(float64)
 	}

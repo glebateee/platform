@@ -16,7 +16,7 @@ var services = make(map[reflect.Type]BindingMap)
 func addService(life lifecycle, factoryFunc interface{}) (err error) {
 	factoryFuncType := reflect.TypeOf(factoryFunc)
 	if factoryFuncType.Kind() == reflect.Func && factoryFuncType.NumOut() == 1 {
-		services[factoryFuncType.Out(1)] = BindingMap{
+		services[factoryFuncType.Out(0)] = BindingMap{
 			factoryFunc: reflect.ValueOf(factoryFunc),
 			lifecycle:   life,
 		}
@@ -70,14 +70,13 @@ func resolveFunctionArguments(c context.Context, f reflect.Value, otherArgs ...i
 	for ; i < len(params); i++ {
 		pType := f.Type().In(i)
 		pVal := reflect.New(pType)
-		err := resolveServiceFromValue(c, pVal)
-		if err != nil {
+		if err := resolveServiceFromValue(c, pVal); err != nil {
 			panic(err)
 		}
 		params[i] = pVal.Elem()
+
 	}
 	return params
-
 }
 
 func invokeFunction(c context.Context, f reflect.Value, otherArgs ...interface{}) []reflect.Value {

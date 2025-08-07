@@ -6,13 +6,14 @@ import (
 	"strings"
 )
 
-func Load(filename string) (config Configuration, err error) {
+func Load(fileName string) (config Confuguration, err error) {
 	var data []byte
-	data, err = os.ReadFile(filename)
+	data, err = os.ReadFile(fileName)
 	if err == nil {
 		decoder := json.NewDecoder(strings.NewReader(string(data)))
 		m := map[string]interface{}{}
-		if err = decoder.Decode(&m); err == nil {
+		err = decoder.Decode(&m)
+		if err == nil {
 			config = &DefaultConfig{configData: m}
 		}
 	}

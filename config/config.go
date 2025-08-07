@@ -1,14 +1,14 @@
 package config
 
-type Configuration interface {
-	GetString(name string) (configValue string, found bool)
-	GetInt(name string) (configValue int, found bool)
-	GetBool(name string) (configValue bool, found bool)
-	GetFloat(name string) (configValue float64, found bool)
+type Confuguration interface {
+	GetString(string) (string, bool)
+	GetInt(string) (int, bool)
+	GetBool(string) (bool, bool)
+	GetFloat(string) (float64, bool)
 
-	GetStringDefault(name string, defaultValue string) (configValue string)
-	GetIntDefault(name string, defaultValue int) (configValue int)
-	GetBoolDefault(name string, defaultValue bool) (configValue bool)
-	GetFloatDefault(name string, defaultValue float64) (configValue float64)
-	GetSection(SectionName string) (section Configuration, found bool)
+	GetStringDefault(string, string) string
+	GetIntDefault(string, int) int
+	GetBoolDefault(string, bool) bool
+	GetFloatDefault(string, float64) float64
+	GetSection(string) (Confuguration, bool)
 }
