@@ -19,7 +19,7 @@ func (c *DefaultConfig) get(path string) (result interface{}, found bool) {
 	return
 }
 
-func (c *DefaultConfig) GetSection(path string) (section Confuguration, found bool) {
+func (c *DefaultConfig) GetSection(path string) (section Configuration, found bool) {
 	value, found := c.get(path)
 	if found {
 		if sectionData, ok := value.(map[string]interface{}); ok {

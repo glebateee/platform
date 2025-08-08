@@ -6,7 +6,7 @@ import (
 	"platform/services"
 )
 
-func writeMessage(logger logging.Logger, cfg config.Confuguration) {
+func writeMessage(logger logging.Logger, cfg config.Configuration) {
 	if section, ok := cfg.GetSection("main"); ok {
 		if msg, ok := section.GetString("message"); ok {
 			logger.Info(msg)
@@ -19,7 +19,7 @@ func writeMessage(logger logging.Logger, cfg config.Confuguration) {
 }
 func main() {
 	services.RegisterDefaultServices()
-	// var cfg config.Confuguration
+	// var cfg config.Configuration
 	// services.GetService(&cfg)
 	// var logger logging.Logger
 	// services.GetService(&logger)

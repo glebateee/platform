@@ -25,7 +25,7 @@ func LogLevelFromString(val string) (level LogLevel) {
 	return
 }
 
-func NewDefaultLogger(cfg config.Confuguration) Logger {
+func NewDefaultLogger(cfg config.Configuration) Logger {
 	var level LogLevel = Debug
 	if configLevelString, found := cfg.GetString("logging:level"); found {
 		level = LogLevelFromString(configLevelString)

@@ -1,6 +1,6 @@
 package config
 
-type Confuguration interface {
+type Configuration interface {
 	GetString(string) (string, bool)
 	GetInt(string) (int, bool)
 	GetBool(string) (bool, bool)
@@ -10,5 +10,5 @@ type Confuguration interface {
 	GetIntDefault(string, int) int
 	GetBoolDefault(string, bool) bool
 	GetFloatDefault(string, float64) float64
-	GetSection(string) (Confuguration, bool)
+	GetSection(string) (Configuration, bool)
 }

@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func Load(fileName string) (config Confuguration, err error) {
+func Load(fileName string) (config Configuration, err error) {
 	var data []byte
 	data, err = os.ReadFile(fileName)
 	if err == nil {
