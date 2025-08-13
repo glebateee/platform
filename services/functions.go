@@ -13,7 +13,7 @@ func Call(target interface{}, otherArgs ...interface{}) ([]interface{}, error) {
 func CallForContext(c context.Context, target interface{}, otherArgs ...interface{}) (results []interface{}, err error) {
 	targetValue := reflect.ValueOf(target)
 	if targetValue.Kind() == reflect.Func {
-		resultVals := invokeFunction(c, targetValue)
+		resultVals := invokeFunction(c, targetValue, otherArgs...)
 		results = make([]interface{}, len(resultVals))
 		for i := range resultVals {
 			results[i] = resultVals[i].Interface()

@@ -1,6 +1,7 @@
 package basic
 
 import (
+	"fmt"
 	"net/http"
 	"platform/logging"
 	"platform/pipeline"
@@ -31,6 +32,7 @@ func (lc *LoggingComponent) Init() {}
 func (lc *LoggingComponent) ProcessRequest(ctx *pipeline.ComponentContext, next func(*pipeline.ComponentContext)) {
 	var logger logging.Logger
 	err := services.GetServiceForContext(ctx.Request.Context(), &logger)
+	fmt.Printf("%T\n", logger)
 	if err != nil {
 		ctx.Error(err)
 		return
