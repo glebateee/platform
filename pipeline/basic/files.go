@@ -4,25 +4,23 @@ import (
 	"net/http"
 	"platform/config"
 	"platform/pipeline"
-	"platform/services"
 	"strings"
 )
 
 type StaticFileComponent struct {
 	urlPrefix     string
 	stdLibHandler http.Handler
+	Config        config.Configuration
 }
 
 func (sfc *StaticFileComponent) Init() {
-	var cfg config.Configuration
-	err := services.GetService(&cfg)
-	if err == nil {
-		sfc.urlPrefix = cfg.GetStringDefault("files:urlprefix", "/files/")
-		if path, ok := cfg.GetString("files:path"); ok {
-			sfc.stdLibHandler = http.StripPrefix(sfc.urlPrefix, http.FileServer(http.Dir(path)))
-		} else {
-			panic("Cannot load file configuration settings")
-		}
+	// var cfg config.Configuration
+	// err := services.GetService(&cfg)
+	sfc.urlPrefix = sfc.Config.GetStringDefault("files:urlprefix", "/files/")
+	if path, ok := sfc.Config.GetString("files:path"); ok {
+		sfc.stdLibHandler = http.StripPrefix(sfc.urlPrefix, http.FileServer(http.Dir(path)))
+	} else {
+		panic("Cannot load file configuration settings")
 	}
 
 }
