@@ -8,8 +8,7 @@ import (
 
 type LayoutTemplateProcessor struct{}
 
-func (proc *LayoutTemplateProcessor) ExecTemplate(writer io.Writer,
-	name string, data interface{}) (err error) {
+func (proc *LayoutTemplateProcessor) ExecTemplate(writer io.Writer, name string, data interface{}) (err error) {
 	var sb strings.Builder
 	layoutName := ""
 	localTemplates := getTemplates()
