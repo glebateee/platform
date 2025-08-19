@@ -6,8 +6,8 @@ import (
 	"strconv"
 )
 
-func parseValueToType(target reflect.Type, requestParam string) (result reflect.Value, err error) {
-	switch target.Kind() {
+func parseValueToType(targetType reflect.Type, requestParam string) (result reflect.Value, err error) {
+	switch targetType.Kind() {
 	case reflect.String:
 		result = reflect.ValueOf(requestParam)
 	case reflect.Int:
@@ -32,7 +32,7 @@ func parseValueToType(target reflect.Type, requestParam string) (result reflect.
 			return reflect.Value{}, convErr
 		}
 	default:
-		err = fmt.Errorf("Cannot use type %v as handler method parameter", target.Name())
+		err = fmt.Errorf("cannot use type %v as handler method parameter", targetType.Name())
 	}
 	return
 }
