@@ -19,8 +19,9 @@ func LoadTemplates(cfg config.Configuration) (err error) {
 		doLoad := func() (t *template.Template) {
 			t = template.New("htmlTemplates")
 			t.Funcs(map[string]interface{}{
-				"body":   func() string { return "" },
-				"layout": func() string { return "" },
+				"body":    func() string { return "" },
+				"layout":  func() string { return "" },
+				"handler": func() interface{} { return "" },
 			})
 			t, err = t.ParseGlob(path)
 			return
@@ -29,7 +30,6 @@ func LoadTemplates(cfg config.Configuration) (err error) {
 		if reload {
 			getTemplates = doLoad
 		} else {
-			//var templates *template.Template
 			templates := doLoad()
 			getTemplates = func() *template.Template {
 				t, _ := templates.Clone()

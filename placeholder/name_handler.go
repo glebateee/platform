@@ -3,6 +3,7 @@ package placeholder
 import (
 	"fmt"
 	"platform/http/actionresults"
+	"platform/http/handling"
 	"platform/logging"
 )
 
@@ -10,6 +11,7 @@ var names = []string{"Alice", "Bob", "Charlie", "Dora"}
 
 type NameHandler struct {
 	logging.Logger
+	handling.URLGenerator
 }
 
 func (nh NameHandler) GetName(i int) actionresults.ActionResult {
@@ -38,9 +40,22 @@ func (nh NameHandler) PostName(new NewName) actionresults.ActionResult {
 	} else {
 		names = append(names, new.Name)
 	}
-	return actionresults.NewRedirectAction("/names")
+	return nh.redirectOrError(NameHandler.GetNames)
 }
 
 func (n NameHandler) GetJsonData() actionresults.ActionResult {
 	return actionresults.NewJsonAction(names)
+}
+
+func (n NameHandler) GetRedirect() actionresults.ActionResult {
+	return n.redirectOrError(NameHandler.GetNames)
+}
+
+func (n NameHandler) redirectOrError(handler interface{}) actionresults.ActionResult {
+	url, err := n.GenerateUrl(handler)
+	if err == nil {
+		return actionresults.NewRedirectAction(url)
+	} else {
+		return actionresults.NewErrorAction(err)
+	}
 }
