@@ -20,7 +20,7 @@ func createPipeline() pipeline.RequestPipeline {
 			handling.HandlerEntry{Prefix: "", Handler: NameHandler{}},
 			handling.HandlerEntry{Prefix: "", Handler: DayHandler{}},
 			handling.HandlerEntry{Prefix: "", Handler: WeatherHandler{}},
-		),
+		).AddMethodAlias("/", NameHandler.GetNames),
 	)
 }
 
