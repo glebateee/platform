@@ -7,7 +7,7 @@ import (
 )
 
 func RegisterDefaultServices() {
-	err := addSingleton(func() (c config.Configuration) {
+	err := AddSingleton(func() (c config.Configuration) {
 		c, loadErr := config.Load("config.json")
 		if loadErr != nil {
 			panic(loadErr)
@@ -17,13 +17,13 @@ func RegisterDefaultServices() {
 	if err != nil {
 		panic(err)
 	}
-	err = addSingleton(func(c config.Configuration) logging.Logger {
+	err = AddSingleton(func(c config.Configuration) logging.Logger {
 		return logging.NewDefaultLogger(c)
 	})
 	if err != nil {
 		panic(err)
 	}
-	err = addSingleton(func(cfg config.Configuration) templates.TemplateExecutor {
+	err = AddSingleton(func(cfg config.Configuration) templates.TemplateExecutor {
 		templates.LoadTemplates(cfg)
 		return &templates.LayoutTemplateProcessor{}
 	})

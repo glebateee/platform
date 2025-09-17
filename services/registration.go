@@ -6,15 +6,15 @@ import (
 	"sync"
 )
 
-func addTransient(factoryFunc interface{}) error {
+func AddTransient(factoryFunc interface{}) error {
 	return addService(Transient, factoryFunc)
 }
 
-func addScoped(factoryFunc interface{}) error {
+func AddScoped(factoryFunc interface{}) error {
 	return addService(Scoped, factoryFunc)
 }
 
-func addSingleton(factoryFunc interface{}) (err error) {
+func AddSingleton(factoryFunc interface{}) (err error) {
 	factoryFuncVal := reflect.ValueOf(factoryFunc)
 	if factoryFuncVal.Kind() == reflect.Func && factoryFuncVal.Type().NumOut() == 1 {
 		var results []reflect.Value
