@@ -43,8 +43,7 @@ func (n NameHandler) GetForm() actionresults.ActionResult {
 func (nh NameHandler) PostName(new NewName) actionresults.ActionResult {
 	nh.Logger.Debugf("PostName method invoked with argument %v", new)
 	if ok, errs := nh.Validator.Validate(&new); !ok {
-		return actionresults.NewTemplateAction("validation_errors.html",
-			errs)
+		return actionresults.NewTemplateAction("validation_errors.html", errs)
 	}
 	if new.InsertAtStart {
 		names = append([]string{new.Name}, names...)

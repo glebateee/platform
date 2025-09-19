@@ -11,11 +11,15 @@ type RequestPipeline func(*ComponentContext)
 var emptyPipeline RequestPipeline = func(*ComponentContext) { /* do nothing */ }
 
 func (pl RequestPipeline) ProcessRequest(req *http.Request, resp http.ResponseWriter) error {
+	defferedWriter := &DefferedResponseWriter{ResponseWriter: resp}
 	ctx := ComponentContext{
 		Request:        req,
-		ResponseWriter: resp,
+		ResponseWriter: defferedWriter,
 	}
 	pl(&ctx)
+	if ctx.error == nil {
+		defferedWriter.FlushData()
+	}
 	return ctx.error
 }
 
