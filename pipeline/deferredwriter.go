@@ -1,6 +1,7 @@
 package pipeline
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 )
@@ -19,6 +20,7 @@ func (dw *DefferedResponseWriter) FlushData() {
 	if dw.statusCode == 0 {
 		dw.statusCode = http.StatusOK
 	}
+	fmt.Println(dw.ResponseWriter.Header())
 	dw.ResponseWriter.WriteHeader(dw.statusCode)
 	dw.ResponseWriter.Write([]byte(dw.Builder.String()))
 }
