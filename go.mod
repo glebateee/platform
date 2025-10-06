@@ -1,4 +1,4 @@
-module platform
+module github.com/glebateee/platform
 
 go 1.23.3
 
